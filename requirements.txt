@@ -1,0 +1,9 @@
+Django
+BeautifulSoup
+mysqlclient==1.3.4
+virtualenv
+requests
+numpy
+pandas
+python-dateutil
+redis
