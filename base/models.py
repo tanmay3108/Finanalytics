@@ -5,6 +5,7 @@ from django.db import models
 
 # Create your models here.
 class Investment(models.Model):
+    folio = models.CharField(max_length=50,primary_key=True)
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=15)
     recurring_ammount = models.DecimalField(max_digits=8, decimal_places=4)
@@ -12,5 +13,6 @@ class Investment(models.Model):
     current_value = models.DecimalField(max_digits=8, decimal_places=4)
     profit = models.DecimalField(max_digits=8, decimal_places=4)
     status = models.CharField(max_length=50)
+    start_date = models.DateField()
     class Meta:
         db_table ="investments"
