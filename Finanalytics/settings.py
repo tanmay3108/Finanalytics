@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'base.apps.BaseConfig',
+    'common.apps.CommonConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,8 +82,18 @@ DATABASES = {
         'NAME': 'fa101fa',
         'USER': 'root',
         'PASSWORD': '',
+    },
+
+'commonspace': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'commonspace',
+        'USER': 'root',
+        'PASSWORD': '',
     }
 }
+
+
+DATABASE_ROUTERS = ['router.CommonDatabaseRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

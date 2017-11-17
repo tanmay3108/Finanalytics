@@ -1,17 +1,19 @@
 from BeautifulSoup import BeautifulSoup
 import requests, re, itertools, csv
+from common.manager import *
+import datetime
 
 #
 # Build a dictionary of Mutual Fund families mapped to their AMFI IDs
 #
 response = requests.get('https://www.amfiindia.com/research-information/other-data/scheme-details').text
-soup = BeautifulSoup(response, 'lxml')
-options = soup.select('select#MFName > option')
+#soup = BeautifulSoup(response, 'lxml')
+#options = soup.select('select#MFName > option')
 fund_id_dict = {}
 
-for option in options:
-    if option['value'].strip():
-        fund_id_dict[unicode(option.string)] = option['value']
+#for option in options:
+    #if option['value'].strip():
+        #fund_id_dict[unicode(option.string)] = option['value']
 
 #
 # Get latest NAV and details for all mutual fund schemes published by AMFI
@@ -57,8 +59,8 @@ for line in raw_data[1:]:
             re.search(r'(^.*)\(', mf_scheme_type).group(1),
             re.search(r'\((.*)\)', mf_scheme_type).group(1),
             mf_family,
-            fund_id_dict[mf_family],
-            ' '.join(row[3].split()).split('-')[0].strip()
+            #fund_id_dict[mf_family],
+            #' '.join(row[3].split()).split('-')[0].strip()
         ])
 
         final_data.append(dict(itertools.izip(headings, row)))
@@ -68,9 +70,21 @@ for idx, row in enumerate(final_data):
     # Step 1: In the scheme name,
     # Convert multiple spaces into one
     final_data[idx]['Scheme Name'] = ' '.join(row['Scheme Name'].split())
+    final_data[idx]['Date'] = datetime.datetime.strptime(row['Date'], '%d-%b-%Y').date()
 
+error_rows =[]
+for row in final_data:
+    try:
+     MutualFundHelper.insert(row)
+    except:
+        print "Error occured"
+        error_rows.append(row)
+    print "Row added"
+
+
+#import pdb; pdb.set_trace()
 # Write the final data as CSV delimited by ;
 with open('amfi.csv', 'wb') as f:  # Just use 'w' mode in 3.x
-    w = csv.DictWriter(f, headings, delimiter=';')
+    w = csv.DictWriter(f, headings, delimiter=',')
     w.writeheader()
-    w.writerows(final_data)
+    w.writerows(error_rows)
