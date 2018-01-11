@@ -1,6 +1,5 @@
 Django
-BeautifulSoup
-mysqlclient==1.3.4
+BeautifulSoup4
 virtualenv
 requests
 numpy
