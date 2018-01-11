@@ -2,6 +2,7 @@ from BeautifulSoup import BeautifulSoup
 import requests, re, itertools, csv
 from common.manager import *
 import datetime
+import PyPDF2
 
 #
 # Build a dictionary of Mutual Fund families mapped to their AMFI IDs
