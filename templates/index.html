@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+
+</head>
+<body>
+
+<table border="1">
+<tr>
+    <th>Name</th>
+    <th>Total Investment</th>
+    <th>Units</th>
+    <th>Current <Value></Value></th>
+</tr>
+{%for element in investment_detail%}
+    <tr>
+        <td>{{element.name}}</td>
+        <td>{{element.total_investment}}</td>
+        <td>{{element.units}}</td>
+        <td>{{"current_value"}}</td>
+    <tr>
+
+
+{% endfor %}
+</table>
+</body>
+</html>
